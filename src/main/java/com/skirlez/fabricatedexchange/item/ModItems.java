@@ -1,11 +1,7 @@
 package com.skirlez.fabricatedexchange.item;
 
 import com.skirlez.fabricatedexchange.FabricatedExchange;
-import com.skirlez.fabricatedexchange.item.tools.DarkMatterAxe;
-import com.skirlez.fabricatedexchange.item.tools.DarkMatterHoe;
-import com.skirlez.fabricatedexchange.item.tools.DarkMatterPickaxe;
-import com.skirlez.fabricatedexchange.item.tools.DarkMatterShovel;
-import com.skirlez.fabricatedexchange.item.tools.DarkMatterSword;
+import com.skirlez.fabricatedexchange.item.tools.*;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.Item;
@@ -49,6 +45,17 @@ public class ModItems {
         registerItem("dark_matter_axe", new DarkMatterAxe(DarkMatterMaterial.INSTANCE, 8f, -3.0f, new Item.Settings().fireproof().group(ModItemGroups.FABRICATED_EXCHANGE)));
     public static final Item DARK_MATTER_HOE = 
         registerItem("dark_matter_hoe", new DarkMatterHoe(DarkMatterMaterial.INSTANCE, 5, 0.0f, new Item.Settings().fireproof().group(ModItemGroups.FABRICATED_EXCHANGE)));
+
+    public static final Item RED_MATTER_SWORD =
+            registerItem("red_matter_sword", new RedMatterSword(RedMatterMaterial.INSTANCE, 14, -2.4f, new Item.Settings().fireproof().group(ModItemGroups.FABRICATED_EXCHANGE)));
+    public static final Item RED_MATTER_PICKAXE =
+            registerItem("red_matter_pickaxe", new RedMatterPickaxe(RedMatterMaterial.INSTANCE, 10, -2.8f, new Item.Settings().fireproof().group(ModItemGroups.FABRICATED_EXCHANGE)));
+    public static final Item RED_MATTER_SHOVEL =
+            registerItem("red_matter_shovel", new RedMatterShovel(DarkMatterMaterial.INSTANCE, 7f, -3.0f, new Item.Settings().fireproof().group(ModItemGroups.FABRICATED_EXCHANGE)));
+    public static final Item RED_MATTER_AXE =
+            registerItem("red_matter_axe", new RedMatterAxe(DarkMatterMaterial.INSTANCE, 12f, -3.0f, new Item.Settings().fireproof().group(ModItemGroups.FABRICATED_EXCHANGE)));
+    public static final Item RED_MATTER_HOE =
+            registerItem("red_matter_hoe", new RedMatterHoe(DarkMatterMaterial.INSTANCE, 8, 0.0f, new Item.Settings().fireproof().group(ModItemGroups.FABRICATED_EXCHANGE)));
 
 
     private static Item registerItem(String name, Item item) {
