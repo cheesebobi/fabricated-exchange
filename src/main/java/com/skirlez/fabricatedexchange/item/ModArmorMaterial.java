@@ -10,7 +10,7 @@ public final class ModArmorMaterial {
 	private ModArmorMaterial() {}
 	
 	public static ArmorMaterial DARK_MATTER = new ArmorMaterial() {
-		private static final int[] PROTECTION_VALUES = new int[] {4, 9, 7, 4};
+		private static final int[] PROTECTION_VALUES = new int[] {3, 8, 6, 3};
 		
 		@Override
 		public float getToughness() {
@@ -53,7 +53,7 @@ public final class ModArmorMaterial {
 		}
 	};
 	public static ArmorMaterial RED_MATTER = new ArmorMaterial() {
-		private static final int[] PROTECTION_VALUES = new int[] {5, 10, 8, 5};
+		private static final int[] PROTECTION_VALUES = new int[] {4, 9, 7, 4};
 		
 		@Override
 		public float getToughness() {
