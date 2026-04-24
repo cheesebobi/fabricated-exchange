@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "S": {
+      "item": "fabricated-exchange:red_matter_sword"
+    },
+    "R": {
+      "item": "fabricated-exchange:red_matter"
+    }
+  },
+  "pattern": [
+    "RSR",
+    "RSR",
+    " R "
+  ],
+  "result": {
+    "item": "fabricated-exchange:red_katar"
+  },
+  "show_notification": true
+}

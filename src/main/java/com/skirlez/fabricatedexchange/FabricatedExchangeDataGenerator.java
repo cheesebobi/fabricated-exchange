@@ -172,7 +172,7 @@ public class FabricatedExchangeDataGenerator implements DataGeneratorEntrypoint 
 				ModItems.FROZEN_ORB, ModItems.MERCURIAL_EYE);
 			
 			registerHandheldModels(itemModelGenerator, ModItems.DARK_MATTER_SWORD, ModItems.DARK_MATTER_PICKAXE, ModItems.DARK_MATTER_AXE,
-				ModItems.DARK_MATTER_SHOVEL, ModItems.DARK_MATTER_HOE, ModItems.DARK_MATTER_HAMMER, ModItems.RED_MATTER_SWORD, ModItems.RED_MATTER_PICKAXE,
+				ModItems.DARK_MATTER_SHOVEL, ModItems.DARK_MATTER_HOE, ModItems.DARK_MATTER_HAMMER, ModItems.RED_MATTER_SWORD, ModItems.RED_KATAR, ModItems.RED_MATTER_PICKAXE,
 				ModItems.RED_MATTER_AXE, ModItems.RED_MATTER_HOE, ModItems.RED_MATTER_SHOVEL, ModItems.RED_MATTER_HAMMER);
 
 
@@ -510,6 +510,16 @@ public class FabricatedExchangeDataGenerator implements DataGeneratorEntrypoint 
 				.criterion(FabricRecipeProvider.hasItem(ModItems.DARK_MATTER_SWORD),
 						FabricRecipeProvider.conditionsFromItem(ModItems.RED_MATTER))
 				.offerTo(exporter);
+
+			ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, ModItems.RED_KATAR)
+					.pattern("RSR")
+					.pattern("RSR")
+					.pattern(" R ")
+					.input('R', ModItems.RED_MATTER)
+					.input('S', ModItems.RED_MATTER_SWORD)
+					.criterion(FabricRecipeProvider.hasItem(ModItems.RED_MATTER_SWORD),
+							FabricRecipeProvider.conditionsFromItem(ModItems.RED_MATTER))
+					.offerTo(exporter);
 
 			ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, ModItems.RED_MATTER_PICKAXE)
 				.pattern("MMM")

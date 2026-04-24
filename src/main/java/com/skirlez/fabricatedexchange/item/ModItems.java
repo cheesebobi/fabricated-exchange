@@ -72,6 +72,9 @@ public final class ModItems {
 	public static final Item RED_MATTER_SWORD = registerItemWithGroup("red_matter_sword",
 			new MatterSword(ModToolMaterials.RED_MATTER_MATERIAL, 14, -2.4f, new Item.Settings().fireproof()));
 
+	public static final Item RED_KATAR = registerItemWithGroup("red_katar",
+			new MatterSword(ModToolMaterials.RED_MATTER_MATERIAL, 25, -2.4f, new Item.Settings().fireproof()));
+
 	public static final Item RED_MATTER_PICKAXE = registerItemWithGroup("red_matter_pickaxe",
 			new MatterPickaxe(ModToolMaterials.RED_MATTER_MATERIAL, 10, -2.8f, new Item.Settings().fireproof()));
 	public static final Item RED_MATTER_SHOVEL = registerItemWithGroup("red_matter_shovel",

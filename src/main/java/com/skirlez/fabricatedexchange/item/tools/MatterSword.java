@@ -6,9 +6,14 @@ import com.skirlez.fabricatedexchange.util.GeneralUtil;
 import com.skirlez.fabricatedexchange.util.SuperNumber;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LightningEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.mob.AmbientEntity;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
@@ -26,37 +31,45 @@ import java.util.List;
 
 public class MatterSword extends SwordItem implements ChargeableItem, ExtraFunctionItem, ItemWithModes,
 		EmcStoringItem {
-	
-	
+
+
 	private final int maxCharge;
+	private final int modesNumber;
 	private final ParticleEffect particle;
 	public MatterSword(ToolMaterial material, int attackDamage, float attackSpeed, Settings settings) {
 		super(material, attackDamage, attackSpeed, settings);
-		
+
 		if (material == ModToolMaterials.DARK_MATTER_MATERIAL) {
 			maxCharge = 2;
+			modesNumber = 2;
 			particle = ParticleTypes.SMOKE;
+		}
+		else if (attackDamage == 25 ){
+			maxCharge = 5;
+			modesNumber = 3;
+			particle = DustParticleEffect.DEFAULT;
 		}
 		else {
 			maxCharge = 3;
+			modesNumber = 3;
 			particle = DustParticleEffect.DEFAULT;
 		}
 	}
-	
+
 	private double getRadius(ItemStack stack) {
 		return ChargeableItem.getCharge(stack) * 2 + 2;
 	}
 
 	@Override
 	public int getModeAmount() {
-		return 2;
+		return modesNumber;
 	}
 
 	@Override
 	public boolean modeSwitchCondition(ItemStack stack) {
 		return (getMaterial() == ModToolMaterials.RED_MATTER_MATERIAL);
 	}
-	
+
 	@Override
 	public boolean isItemBarVisible(ItemStack stack) {
 		return true;
@@ -76,7 +89,7 @@ public class MatterSword extends SwordItem implements ChargeableItem, ExtraFunct
 	public int getMaxCharge() {
 		return maxCharge;
 	}
-	
+
 	@Override
 	public void onCharge(ItemStack stack, int charge, PlayerEntity player) {
 		World world = player.getWorld();
@@ -96,14 +109,17 @@ public class MatterSword extends SwordItem implements ChargeableItem, ExtraFunct
 	protected boolean entityCondition(Entity entity, ItemStack stack) {
 		// Get the current mode of the sword
 		int mode = ItemWithModes.getMode(stack);
-		if (mode == 1) {
-			return (entity instanceof AnimalEntity);
-		} else { // Default mode or any other mode targets the original entities
+		if (mode == 0) {
 			return (entity instanceof Monster) || (entity instanceof HostileEntity) || (entity instanceof PlayerEntity);
+		} else if (mode == 1) {
+			return (entity instanceof AnimalEntity || entity instanceof PassiveEntity || entity instanceof AmbientEntity);
+		} else if (mode == 2) {
+			return (entity instanceof LivingEntity);
 		}
+		else return entity instanceof Monster;
 	}
 
-	
+
 	private static final SuperNumber BASE_AMOUNT = new SuperNumber(64);
 	@Override
 	public void doExtraFunction(World world, PlayerEntity player, ItemStack stack) {
@@ -129,10 +145,10 @@ public class MatterSword extends SwordItem implements ChargeableItem, ExtraFunct
 			if (entity.distanceTo(player) <= radius)
 				entity.damage(player.getDamageSources().playerAttack(player), getAttackDamage());
 		}
-		
+
 		player.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), ModSoundEvents.ITEM_CHARGE,
 			SoundCategory.PLAYERS, 1, 1.0f);
-		
+
 	}
 
 
@@ -142,6 +158,6 @@ public class MatterSword extends SwordItem implements ChargeableItem, ExtraFunct
 		ToolMaterial material = getMaterial();
 		if (material == ModToolMaterials.RED_MATTER_MATERIAL)
 			ItemWithModes.addModeToTooltip(stack, tooltip);
-		 
+
 	}
 }

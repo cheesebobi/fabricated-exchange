@@ -54,6 +54,12 @@
     "item.fabricated-exchange.red_matter_sword": "Red Matter Sword",
     "item.fabricated-exchange.red_matter_sword.mode_1": "Aggressive",
     "item.fabricated-exchange.red_matter_sword.mode_2": "Passive",
+    "item.fabricated-exchange.red_matter_sword.mode_3": "All",
+
+    "item.fabricated-exchange.red_katar": "Red Katar",
+    "item.fabricated-exchange.red_katar.mode_1": "Aggressive",
+    "item.fabricated-exchange.red_katar.mode_2": "Passive",
+    "item.fabricated-exchange.red_katar.mode_3": "All",
     
     "item.fabricated-exchange.red_matter_pickaxe": "Red Matter Pickaxe",
     "item.fabricated-exchange.red_matter_pickaxe.mode_1": "Wideshot",
