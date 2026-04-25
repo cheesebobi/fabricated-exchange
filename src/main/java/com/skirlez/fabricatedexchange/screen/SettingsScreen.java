@@ -13,6 +13,7 @@ import com.skirlez.fabricatedexchange.util.GeneralUtil;
 import com.skirlez.fabricatedexchange.util.SuperNumber;
 import com.skirlez.fabricatedexchange.util.config.ModDataFiles;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.gui.tooltip.Tooltip;
@@ -20,7 +21,6 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.TextWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.MutableText;
@@ -271,17 +271,17 @@ public class SettingsScreen extends GameOptionsScreen {
 	
 	
 	@Override
-	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		renderBackground(matrices);
+	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+		renderBackground(context);
 		
-		super.render(matrices, mouseX, mouseY, delta);
-		itemRenderer.renderGuiItemIcon(matrices, new ItemStack(ModItems.DARK_MATTER_HOE), mouseX - 8, mouseY - 8);
-		GameOptionsScreen.drawCenteredTextWithShadow(matrices, this.textRenderer, this.title, this.width / 2, 20, 0xFFFFFF);
-		drawBalls(matrices, mouseX, mouseY);
+		super.render(context, mouseX, mouseY, delta);
+		context.drawItem(new ItemStack(ModItems.DARK_MATTER_HOE), mouseX - 8, mouseY - 8);
+		context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 20, 0xFFFFFF);
+		drawBalls(context, mouseX, mouseY);
 
 	}
 	
-	private void drawBalls(MatrixStack matrices, int mouseX, int mouseY) {
+	private void drawBalls(DrawContext context, int mouseX, int mouseY) {
 		long currentTime = System.nanoTime();
 		
 		double dotX = this.width / 2 + 50;
@@ -342,7 +342,7 @@ public class SettingsScreen extends GameOptionsScreen {
 			}
 			
 			
-			itemRenderer.renderGuiItemIcon(matrices, new ItemStack(ball.item), (int)ball.pos.x - 8, (int)ball.pos.y - 8);
+			context.drawItem(new ItemStack(ball.item), (int)ball.pos.x - 8, (int)ball.pos.y - 8);
 		}
 		prevRenderTime = currentTime;
 	}

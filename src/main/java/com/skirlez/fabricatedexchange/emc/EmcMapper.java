@@ -34,12 +34,12 @@ import net.minecraft.potion.Potions;
 import net.minecraft.recipe.BrewingRecipeRegistry;
 import net.minecraft.recipe.CraftingRecipe;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.LegacySmithingRecipe;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeManager;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.SmeltingRecipe;
 import net.minecraft.recipe.SmithingRecipe;
+import net.minecraft.recipe.SmithingTransformRecipe;
 import net.minecraft.recipe.StonecuttingRecipe;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.Registries;
@@ -233,11 +233,11 @@ public class EmcMapper {
 
 	@Nullable
 	private ItemEquation createSmithingEquation(SmithingRecipe recipe) {
-		if (!(recipe instanceof LegacySmithingRecipe))
+		if (!(recipe instanceof SmithingTransformRecipe))
 			return null;
 		LegacySmithingRecipeAccessor recipeAccessor = (LegacySmithingRecipeAccessor) recipe;
 		return new ItemEquation(
-			Arrays.asList(recipeAccessor.getBase(), recipeAccessor.getAddition()),
+			Arrays.asList(recipeAccessor.getTemplate(), recipeAccessor.getBase(), recipeAccessor.getAddition()),
 			Arrays.asList(recipe.getOutput(this.dynamicRegistryManager)),
 			recipe.getId());
 	}

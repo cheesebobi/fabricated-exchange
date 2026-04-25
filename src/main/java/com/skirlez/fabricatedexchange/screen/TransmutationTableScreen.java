@@ -11,11 +11,11 @@ import com.skirlez.fabricatedexchange.screen.slot.transmutation.TransmutationSlo
 import com.skirlez.fabricatedexchange.util.config.ModDataFiles;
 
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
@@ -132,14 +132,14 @@ public class TransmutationTableScreen extends HandledScreen<TransmutationTableSc
 	}
 
 	@Override
-	protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
+	protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
 		RenderSystem.setShader(GameRenderer::getPositionTexProgram);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderSystem.setShaderTexture(0, TEXTURE);
 		int x = (width - backgroundWidth) / 2;
 		int y = (height - backgroundHeight) / 2;
 		
-		drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
+		context.drawTexture(TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight, 256, 256);
 	}
 
 	@Override
@@ -159,12 +159,12 @@ public class TransmutationTableScreen extends HandledScreen<TransmutationTableSc
 	}
 
 	@Override
-	protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
-		textRenderer.draw(matrices, this.title, (float)this.titleX, (float)this.titleY, 0x404040);
+	protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
+		context.drawText(textRenderer, this.title, this.titleX, this.titleY, 0x404040, false);
 		String emc = FabricatedExchangeClient.clientEmc.shortString();
 
-		textRenderer.draw(matrices, Text.literal("EMC:"), 5, 96, 0x404040);
-		textRenderer.draw(matrices, Text.literal(emc), 5, 106, 0x404040);
+		context.drawText(textRenderer, Text.literal("EMC:"), 5, 96, 0x404040, false);
+		context.drawText(textRenderer, Text.literal(emc), 5, 106, 0x404040, false);
 
 		if (floorButtonEnabled) {
 			if (FabricatedExchangeClient.clientEmc.isRound()) {
@@ -182,7 +182,7 @@ public class TransmutationTableScreen extends HandledScreen<TransmutationTableSc
 			offeringPageNum = lastPage;
 
 		Text text = Text.literal((offeringPageNum + 1) + "/" + (lastPage + 1));
-		textRenderer.draw(matrices, text, 168 - textRenderer.getWidth(text) / 2f, 107, 0x404040);
+		context.drawText(textRenderer, text, (int)(168 - textRenderer.getWidth(text) / 2f), 107, 0x404040, false);
 	}
 
 	public void resetAngleTime(double additonalRotations) {
@@ -208,10 +208,10 @@ public class TransmutationTableScreen extends HandledScreen<TransmutationTableSc
 	}
 
 	@Override
-	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		renderBackground(matrices);
-		super.render(matrices, mouseX, mouseY, delta);
-		drawMouseoverTooltip(matrices, mouseX, mouseY);
+	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+		renderBackground(context);
+		super.render(context, mouseX, mouseY, delta);
+		drawMouseoverTooltip(context, mouseX, mouseY);
 
 		DefaultedList<TransmutationSlot> list = handler.getTransmutationSlots();
 		double angleOffset = 0.0;

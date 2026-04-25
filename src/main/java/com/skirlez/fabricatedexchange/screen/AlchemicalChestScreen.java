@@ -3,9 +3,9 @@ package com.skirlez.fabricatedexchange.screen;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.skirlez.fabricatedexchange.FabricatedExchange;
 
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -30,7 +30,7 @@ public class AlchemicalChestScreen extends HandledScreen<AlchemicalChestScreenHa
 	}
 
 	@Override
-	protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
+	protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
 		RenderSystem.setShader(GameRenderer::getPositionTexProgram);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderSystem.setShaderTexture(0, TEXTURE);
@@ -39,18 +39,18 @@ public class AlchemicalChestScreen extends HandledScreen<AlchemicalChestScreenHa
 
 		this.playerInventoryTitleY = this.backgroundHeight - 93;
 
-		drawTexture(matrices, i, j, 0, 0, backgroundWidth, backgroundHeight);
+		context.drawTexture(TEXTURE, i, j, 0, 0, backgroundWidth, backgroundHeight, 256, 256);
 	}
 
 	@Override
-	protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
+	protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
 
 	}
 
 	@Override
-	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		renderBackground(matrices);
-		super.render(matrices, mouseX, mouseY, delta);
-		drawMouseoverTooltip(matrices, mouseX, mouseY);
+	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+		renderBackground(context);
+		super.render(context, mouseX, mouseY, delta);
+		drawMouseoverTooltip(context, mouseX, mouseY);
 	}
 }

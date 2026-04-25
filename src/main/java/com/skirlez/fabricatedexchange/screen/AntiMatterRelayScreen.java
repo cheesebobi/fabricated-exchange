@@ -3,9 +3,9 @@ package com.skirlez.fabricatedexchange.screen;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.skirlez.fabricatedexchange.FabricatedExchange;
 import com.skirlez.fabricatedexchange.screen.AntiMatterRelayScreenHandler.SlotIndicies;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
@@ -62,13 +62,13 @@ public class AntiMatterRelayScreen extends HandledScreen<AntiMatterRelayScreenHa
 	}
 
 	@Override
-	protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
+	protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
 		RenderSystem.setShader(GameRenderer::getPositionTexProgram);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderSystem.setShaderTexture(0, texture);
 		int x = (width - backgroundWidth) / 2;
 		int y = (height - backgroundHeight) / 2 - 5;
-		drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
+		context.drawTexture(texture, x, y, 0, 0, backgroundWidth, backgroundHeight, 256, 256);
 
 		
 
@@ -94,25 +94,25 @@ public class AntiMatterRelayScreen extends HandledScreen<AntiMatterRelayScreenHa
 		// draw fuel energy bar 
 		ItemStack fuelStack = handler.getInventory().getStack(SlotIndicies.FUEL_SLOT.ordinal());
 		percent = (double)fuelStack.getCount() / fuelStack.getMaxCount();
-		drawTexture(matrices, x + 64 + xFuel, y + 67 + yFuel, 0, backgroundHeight, (int)(30 * percent), 10); 
+		context.drawTexture(texture, x + 64 + xFuel, y + 67 + yFuel, 0, backgroundHeight, (int)(30 * percent), 10, 256, 256); 
 
 
 		percent = ((double)emc / (double)maximumEmc);
 		if (percent > 1)
 			percent = 1;
-		drawTexture(matrices, x + 64 + xBar, y + 6, 30, backgroundHeight, (int)(102 * percent), 10); 
+		context.drawTexture(texture, x + 64 + xBar, y + 6, 30, backgroundHeight, (int)(102 * percent), 10, 256, 256); 
 		
 	}
 	
 	@Override
-	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		renderBackground(matrices);
-		super.render(matrices, mouseX, mouseY, delta);
-		drawMouseoverTooltip(matrices, mouseX, mouseY);
+	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+		renderBackground(context);
+		super.render(context, mouseX, mouseY, delta);
+		drawMouseoverTooltip(context, mouseX, mouseY);
 	}
 
 	@Override
-	protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
+	protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
 		int xOffset;
 		if (level == 0) 
 			xOffset = 0;
@@ -122,7 +122,7 @@ public class AntiMatterRelayScreen extends HandledScreen<AntiMatterRelayScreenHa
 			xOffset = 37;
 		
 
-		textRenderer.draw(matrices, NumberFormat.getIntegerInstance().format(emc), 88 + xOffset, 16, 0x404040);
+		context.drawText(textRenderer, NumberFormat.getIntegerInstance().format(emc), 88 + xOffset, 16, 0x404040, false);
 	}
 
 	public void update(long emc) {

@@ -34,7 +34,7 @@ public interface ChargeableItem {
 			stackNbt.putInt(CHARGE_KEY, newValue);
 			SoundEvent sound = (Math.signum(value) == 1) ? ModSoundEvents.ITEM_CHARGE : ModSoundEvents.ITEM_DISCHARGE;
 
-			if (player.world.isClient()) {
+			if (player.getWorld().isClient()) {
 				((ClientPlayerEntity)player).playSound(sound, 
 					SoundCategory.PLAYERS, 1, 0.5F + ((0.5F / (float) max) * oldValue));
 			}

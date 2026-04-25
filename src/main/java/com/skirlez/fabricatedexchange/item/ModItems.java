@@ -142,7 +142,7 @@ public final class ModItems {
 	}
 
 	private static Item registerGroup(Item item) {
-		ItemGroupEvents.modifyEntriesEvent(ModItemGroups.FABRICATED_EXCHANGE).register(entries -> entries.add(item));
+		ItemGroupEvents.modifyEntriesEvent(ModItemGroups.FABRICATED_EXCHANGE_KEY).register(entries -> entries.add(item));
 		return item;
 	}
 

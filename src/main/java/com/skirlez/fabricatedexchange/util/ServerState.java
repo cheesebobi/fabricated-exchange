@@ -109,7 +109,7 @@ public class ServerState extends PersistentState {
 	}
  
 	public static PlayerState getPlayerState(LivingEntity player) {
-		ServerState serverState = getServerState(player.world.getServer());
+		ServerState serverState = getServerState(player.getWorld().getServer());
 		// Either get the player by the uuid, or we don't have data for him yet, make a new player state
 		PlayerState playerState = serverState.players.computeIfAbsent(player.getUuid(), uuid -> new PlayerState(serverState));
  

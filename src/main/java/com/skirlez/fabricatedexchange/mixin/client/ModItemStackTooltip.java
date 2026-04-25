@@ -7,94 +7,95 @@ import com.skirlez.fabricatedexchange.screen.slot.transmutation.TransmutationSlo
 import com.skirlez.fabricatedexchange.util.SuperNumber;
 import com.skirlez.fabricatedexchange.util.config.ModDataFiles;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Mixin(ItemStack.class)
 public class ModItemStackTooltip {
-	@Shadow
-	int count;
-	
 	@Inject(method = "getTooltip", at = @At("RETURN"))
-	protected void addEmcToTooltip(CallbackInfoReturnable<ArrayList<Text>> cir) {
+	private void addEmcToTooltip(PlayerEntity player, TooltipContext context, CallbackInfoReturnable<List<Text>> cir) {
 		ItemStack itemStack = (ItemStack)(Object)this;
-		ArrayList<Text> list = cir.getReturnValue();
-		SuperNumber emc = EmcData.getItemEmc(itemStack.getItem());
-		EmcData.considerStackNbt(itemStack, emc);
+		List<Text> list = cir.getReturnValue();
+		SuperNumber itemEmc = EmcData.getItemEmc(itemStack.getItem());
+
+		EmcData.considerStackDurability(itemStack, itemEmc);
+		EmcData.considerStackNbt(itemStack, itemEmc);
 
 		int maxCount = itemStack.getMaxCount();
 		MinecraftClient client = MinecraftClient.getInstance();
 
-		EmcData.considerStackDurability(itemStack, emc);
-		
 		if (ModDataFiles.MAIN_CONFIG_FILE.showEnchantedBookRepairCost && itemStack.getItem().equals(Items.ENCHANTED_BOOK)) {
 			NbtCompound nbt = itemStack.getNbt();
 			if (nbt != null) {
 				int repairCost = nbt.getInt("RepairCost");
-				if (repairCost != 0)
-					list.add(Text.literal("§6Added Repair Cost: " + repairCost + "§r"));
+				if (repairCost != 0) {
+					list.add(Text.literal("\u00a76Added Repair Cost: " + repairCost + "\u00a7r"));
+				}
 			}
 		}
 
-		if (client.currentScreen instanceof TransmutationTableScreen currentScreen
-				&& currentScreen.getFocusedSlot() instanceof TransmutationSlot 
-				&& Screen.hasShiftDown() && maxCount != 1) {
-			SuperNumber itemCount = new SuperNumber(FabricatedExchangeClient.clientEmc);
-			itemCount.divide(emc);
-			itemCount.floor();
+		if (!itemEmc.equalsZero()
+				&& client.currentScreen instanceof TransmutationTableScreen currentScreen
+				&& currentScreen.getFocusedSlot() instanceof TransmutationSlot
+				&& Screen.hasShiftDown()
+				&& maxCount != 1) {
+			SuperNumber affordableCount = new SuperNumber(FabricatedExchangeClient.clientEmc);
+			affordableCount.divide(itemEmc);
+			affordableCount.floor();
 
-			SuperNumber sMaxCount = new SuperNumber(maxCount);
-			sMaxCount = SuperNumber.min(sMaxCount, itemCount);
-			if (sMaxCount.equalsOne())
-				list.add(Text.literal("§eEMC§r: " + emc));
+			SuperNumber displayCount = SuperNumber.min(new SuperNumber(maxCount), affordableCount);
+			if (displayCount.equalsOne()) {
+				list.add(Text.literal("\u00a7eEMC\u00a7r: " + itemEmc));
+			}
 			else {
-				emc.multiply(sMaxCount);
-				list.add(Text.literal("§eEMC for " + sMaxCount + ": §r" + emc));
+				SuperNumber totalAffordableEmc = new SuperNumber(itemEmc);
+				totalAffordableEmc.multiply(displayCount);
+				list.add(Text.literal("\u00a7eEMC for " + displayCount + ": \u00a7r" + totalAffordableEmc));
 			}
 		}
 		else {
-			if (!emc.equalsZero()) {
-				list.add(Text.literal("§eEMC§r: " + emc));
-				if (count > 1) {
-					emc.multiply(count);
-					list.add(Text.literal("§eStack EMC: §r" + emc));
+			if (!itemEmc.equalsZero()) {
+				list.add(Text.literal("\u00a7eEMC\u00a7r: " + itemEmc));
+				if (itemStack.getCount() > 1) {
+					SuperNumber stackEmc = new SuperNumber(itemEmc);
+					stackEmc.multiply(itemStack.getCount());
+					list.add(Text.literal("\u00a7eStack EMC: \u00a7r" + stackEmc));
 				}
 			}
-			if (itemStack.getNbt() != null) {
-				String storedEmcString = itemStack.getNbt().getString("emc");
-				
+
+			NbtCompound nbt = itemStack.getNbt();
+			if (nbt != null) {
+				String storedEmcString = nbt.getString("emc");
 				if (!storedEmcString.isEmpty()) {
 					SuperNumber storedEmc = new SuperNumber(storedEmcString);
-					list.add(Text.literal("§eStored EMC§r: " + storedEmc));
+					list.add(Text.literal("\u00a7eStored EMC\u00a7r: " + storedEmc));
 				}
 			}
 		}
-		
-		 
+
 		if (ModDataFiles.MAIN_CONFIG_FILE.showItemEmcOrigin) {
 			boolean seed = EmcData.isItemInSeedValues(itemStack.getItem());
 			boolean custom = EmcData.isItemInCustomValues(itemStack.getItem());
-			if (seed)
-				list.add(Text.literal("§eSeed EMC"));
-			if (custom)
-				list.add(Text.literal("§eCustom EMC"));
-			if (!seed && !custom && !emc.equalsZero())
-				list.add(Text.literal("§eInferred EMC"));
+			if (seed) {
+				list.add(Text.literal("\u00a7eSeed EMC"));
+			}
+			if (custom) {
+				list.add(Text.literal("\u00a7eCustom EMC"));
+			}
+			if (!seed && !custom && !itemEmc.equalsZero()) {
+				list.add(Text.literal("\u00a7eInferred EMC"));
+			}
 		}
-		
-	}
-
-	protected void showEmcOrigin(CallbackInfoReturnable<ArrayList<Text>> cir) {
-
 	}
 }

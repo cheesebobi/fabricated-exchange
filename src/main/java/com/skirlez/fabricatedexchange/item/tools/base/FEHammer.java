@@ -10,7 +10,7 @@ import net.minecraft.item.ToolMaterial;
 import com.skirlez.fabricatedexchange.item.ChargeableItem;
 import com.skirlez.fabricatedexchange.item.ItemWithModes;
 import com.skirlez.fabricatedexchange.item.OutliningItem;
-import net.minecraft.loot.context.LootContext;
+import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Style;
@@ -188,11 +188,10 @@ public abstract class FEHammer extends PickaxeItem implements ChargeableItem, Ou
 
 						BlockState state = world.getBlockState(blockPos);
 						if (!state.isAir()) {
-							LootContext.Builder builder = new LootContext.Builder((ServerWorld) world)
-									.random(world.random)
-									.parameter(LootContextParameters.ORIGIN, Vec3d.ofCenter(blockPos))
-									.parameter(LootContextParameters.TOOL, stack)
-									.optionalParameter(LootContextParameters.BLOCK_ENTITY, world.getBlockEntity(blockPos));
+							LootContextParameterSet.Builder builder = new LootContextParameterSet.Builder((ServerWorld) world)
+									.add(LootContextParameters.ORIGIN, Vec3d.ofCenter(blockPos))
+									.add(LootContextParameters.TOOL, stack)
+									.addOptional(LootContextParameters.BLOCK_ENTITY, world.getBlockEntity(blockPos));
 							drops.addAll(state.getDroppedStacks(builder));
 							world.removeBlock(blockPos, false); // Remove the block
 						}
@@ -200,11 +199,10 @@ public abstract class FEHammer extends PickaxeItem implements ChargeableItem, Ou
 
 					// Only handle the center block if it's not already in the list of positions to mine
 					if (!positionsToMine.contains(pos) && !blockState.isAir()) {
-						LootContext.Builder builder = new LootContext.Builder((ServerWorld) world)
-								.random(world.random)
-								.parameter(LootContextParameters.ORIGIN, hitResult.getPos())
-								.parameter(LootContextParameters.TOOL, stack)
-								.optionalParameter(LootContextParameters.BLOCK_ENTITY, world.getBlockEntity(pos));
+						LootContextParameterSet.Builder builder = new LootContextParameterSet.Builder((ServerWorld) world)
+								.add(LootContextParameters.ORIGIN, hitResult.getPos())
+								.add(LootContextParameters.TOOL, stack)
+								.addOptional(LootContextParameters.BLOCK_ENTITY, world.getBlockEntity(pos));
 						drops.addAll(blockState.getDroppedStacks(builder));
 						world.removeBlock(pos, false); // Remove the center block
 					}

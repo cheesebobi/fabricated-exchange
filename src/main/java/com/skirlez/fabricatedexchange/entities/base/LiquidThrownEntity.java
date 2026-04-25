@@ -38,11 +38,11 @@ public abstract class LiquidThrownEntity extends ZeroGravityThrownEntity {
 		for (int x = -charge; x <= charge; x++) {
 			for (int z = -charge; z <= charge; z++) {
 				BlockPos offsetPos = pos.add(x, 0, z);
-				placeLiquid(world, offsetPos);
+				placeLiquid(getWorld(), offsetPos);
 			}
 		}
-		world.playSound(null, pos, getEmptyBucketSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-		this.world.sendEntityStatus(this, EntityStatuses.PLAY_DEATH_SOUND_OR_ADD_PROJECTILE_HIT_PARTICLES);
+		getWorld().playSound(null, pos, getEmptyBucketSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+		getWorld().sendEntityStatus(this, EntityStatuses.PLAY_DEATH_SOUND_OR_ADD_PROJECTILE_HIT_PARTICLES);
 		this.discard();
 	}
 
@@ -61,9 +61,9 @@ public abstract class LiquidThrownEntity extends ZeroGravityThrownEntity {
 		if (status != EntityStatuses.PLAY_DEATH_SOUND_OR_ADD_PROJECTILE_HIT_PARTICLES)
 			return;
 		ParticleEffect particleEffect = new ItemStackParticleEffect(ParticleTypes.ITEM, new ItemStack(getDefaultItem()));
-		Random random = world.getRandom();
+		Random random = getWorld().getRandom();
 		for (int i = 0; i < 8; i++) {
-			this.world.addParticle(particleEffect, this.getX(), this.getY(), this.getZ(),
+			getWorld().addParticle(particleEffect, this.getX(), this.getY(), this.getZ(),
 				(random.nextDouble() * 2d - 1d) * 0.2f,
 				(random.nextDouble() * 2d - 1d) * 0.2f,
 				(random.nextDouble() * 2d - 1d) * 0.2f);
@@ -82,13 +82,13 @@ public abstract class LiquidThrownEntity extends ZeroGravityThrownEntity {
 				for (int y = -charge; y <= charge; y++) {
 					for (int z = -charge; z <= charge; z++) {
 						BlockPos offsetPos = pos.add(x, y, z);
-						shouldPlaySound = passByBlock(world, offsetPos) || shouldPlaySound;
+						shouldPlaySound = passByBlock(getWorld(), offsetPos) || shouldPlaySound;
 					}
 				}
 			}
 		}
 		if (shouldPlaySound)
-			this.world.playSound(null, pos, getPassModifySound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+			getWorld().playSound(null, pos, getPassModifySound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
 	}
 
 

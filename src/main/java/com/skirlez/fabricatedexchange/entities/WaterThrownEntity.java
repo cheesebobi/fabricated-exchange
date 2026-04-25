@@ -42,8 +42,8 @@ public class WaterThrownEntity extends LiquidThrownEntity {
 
 	@Override
 	protected boolean passByBlock(World world, BlockPos pos) {
-		if (this.world.getFluidState(pos).getFluid() == Fluids.LAVA) {
-			this.world.setBlockState(pos, Blocks.OBSIDIAN.getDefaultState());
+		if (getWorld().getFluidState(pos).getFluid() == Fluids.LAVA) {
+			getWorld().setBlockState(pos, Blocks.OBSIDIAN.getDefaultState());
 			return true;
 		}
 		return false;
@@ -56,9 +56,9 @@ public class WaterThrownEntity extends LiquidThrownEntity {
 			return;
 		// TODO add config option for this
 		if (this.getY() > 150 && this.getVelocity().y > 0) {
-			if (world instanceof ServerWorld serverWorld) {
+			if (getWorld() instanceof ServerWorld serverWorld) {
 
-				if (world.isRaining()) {
+				if (getWorld().isRaining()) {
 					serverWorld.setWeather(0, 6000, true, true);
 				}
 				else {

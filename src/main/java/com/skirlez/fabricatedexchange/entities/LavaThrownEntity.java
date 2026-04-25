@@ -51,14 +51,14 @@ public class LavaThrownEntity extends LiquidThrownEntity {
 
 	@Override
 	protected boolean passByBlock(World world, BlockPos pos) {
-		if (this.world.getFluidState(pos).getFluid() == Fluids.WATER) {
+		if (getWorld().getFluidState(pos).getFluid() == Fluids.WATER) {
 			BlockState state = world.getBlockState(pos);
 			if (state.contains(Properties.WATERLOGGED)
 					&& state.get(Properties.WATERLOGGED)) {
 				world.setBlockState(pos, state.with(Properties.WATERLOGGED, false), 11);
 				return true;
 			}
-			this.world.setBlockState(pos, Blocks.AIR.getDefaultState());
+			getWorld().setBlockState(pos, Blocks.AIR.getDefaultState());
 			return true;
 		}
 		return false;
@@ -71,7 +71,7 @@ public class LavaThrownEntity extends LiquidThrownEntity {
 			return;
 
 		if (this.getY() > 150 && this.getVelocity().y > 0) {
-			if (world instanceof ServerWorld) {
+			if (getWorld() instanceof ServerWorld) {
 				// TODO don't do it using commands
 				/*
 				ServerWorld serverWorld = (ServerWorld) world;

@@ -8,7 +8,7 @@ import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.MapColor;
-import net.minecraft.block.Material;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -19,43 +19,43 @@ public final class ModBlocks {
 	private ModBlocks() {}
 
 	public static final Block ALCHEMICAL_COAL_BLOCK = registerBlock("alchemical_coal_block", 
-		new Block(FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(5.0f, 6.0f)));
+		new Block(FabricBlockSettings.copyOf(Blocks.STONE).mapColor(MapColor.RED).requiresTool().strength(5.0f, 6.0f)));
 	public static final Block RADIANT_COAL_BLOCK = registerBlock("radiant_coal_block", 
-		new Block(FabricBlockSettings.of(Material.STONE, MapColor.WHITE).requiresTool().strength(5.0f, 6.0f)));
+		new Block(FabricBlockSettings.copyOf(Blocks.STONE).mapColor(MapColor.WHITE).requiresTool().strength(5.0f, 6.0f)));
 	public static final Block MOBIUS_FUEL_BLOCK = registerBlock("mobius_fuel_block", 
-		new Block(FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(5.0f, 6.0f)));
+		new Block(FabricBlockSettings.copyOf(Blocks.STONE).mapColor(MapColor.RED).requiresTool().strength(5.0f, 6.0f)));
 	public static final Block AETERNALIS_FUEL_BLOCK = registerBlock("aeternalis_fuel_block", 
-		new Block(FabricBlockSettings.of(Material.STONE, MapColor.WHITE).requiresTool().strength(5.0f, 6.0f)));
+		new Block(FabricBlockSettings.copyOf(Blocks.STONE).mapColor(MapColor.WHITE).requiresTool().strength(5.0f, 6.0f)));
 
 	public static final Block DARK_MATTER_BLOCK = registerBlock("dark_matter_block", 
-		new Block(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).requiresTool().strength(5.0f, 6.0f)));
+		new Block(FabricBlockSettings.copyOf(Blocks.STONE).mapColor(MapColor.BLACK).requiresTool().strength(5.0f, 6.0f)));
 	public static final Block RED_MATTER_BLOCK = registerBlock("red_matter_block", 
-		new Block(FabricBlockSettings.of(Material.STONE, MapColor.RED).requiresTool().strength(5.0f, 6.0f)));
+		new Block(FabricBlockSettings.copyOf(Blocks.STONE).mapColor(MapColor.RED).requiresTool().strength(5.0f, 6.0f)));
 
 	public static final Block TRANSMUTATION_TABLE = registerBlock("transmutation_table", 
-		new TransmutationTable(FabricBlockSettings.of(Material.STONE, MapColor.WHITE)));
+		new TransmutationTable(FabricBlockSettings.copyOf(Blocks.STONE).mapColor(MapColor.WHITE)));
 
 	public static final Block ENERGY_COLLECTOR_MK1 = registerBlock("energy_collector_mk1", 
-		new EnergyCollector(FabricBlockSettings.of(Material.GLASS, MapColor.PALE_YELLOW).requiresTool().strength(5.0f, 6.0f).luminance(state -> 5), 0));
+		new EnergyCollector(FabricBlockSettings.copyOf(Blocks.GLASS).mapColor(MapColor.PALE_YELLOW).requiresTool().strength(5.0f, 6.0f).luminance(state -> 5), 0));
 	public static final Block ENERGY_COLLECTOR_MK2 = registerBlock("energy_collector_mk2", 
-		new EnergyCollector(FabricBlockSettings.of(Material.GLASS, MapColor.PALE_YELLOW).requiresTool().strength(5.0f, 6.0f).luminance(state -> 10), 1));
+		new EnergyCollector(FabricBlockSettings.copyOf(Blocks.GLASS).mapColor(MapColor.PALE_YELLOW).requiresTool().strength(5.0f, 6.0f).luminance(state -> 10), 1));
 	public static final Block ENERGY_COLLECTOR_MK3 = registerBlock("energy_collector_mk3", 
-		new EnergyCollector(FabricBlockSettings.of(Material.GLASS, MapColor.PALE_YELLOW).requiresTool().strength(5.0f, 6.0f).luminance(state -> 15), 2));
+		new EnergyCollector(FabricBlockSettings.copyOf(Blocks.GLASS).mapColor(MapColor.PALE_YELLOW).requiresTool().strength(5.0f, 6.0f).luminance(state -> 15), 2));
 
 	public static final Block ANTIMATTER_RELAY_MK1 = registerBlock("antimatter_relay_mk1", 
-		new AntiMatterRelay(FabricBlockSettings.of(Material.GLASS, MapColor.BLACK).requiresTool().strength(3.5f).luminance(state -> 5), 0));
+		new AntiMatterRelay(FabricBlockSettings.copyOf(Blocks.GLASS).mapColor(MapColor.BLACK).requiresTool().strength(3.5f).luminance(state -> 5), 0));
 	public static final Block ANTIMATTER_RELAY_MK2 = registerBlock("antimatter_relay_mk2", 
-		new AntiMatterRelay(FabricBlockSettings.of(Material.GLASS, MapColor.BLACK).requiresTool().strength(3.5f).luminance(state -> 10), 1));
+		new AntiMatterRelay(FabricBlockSettings.copyOf(Blocks.GLASS).mapColor(MapColor.BLACK).requiresTool().strength(3.5f).luminance(state -> 10), 1));
 	public static final Block ANTIMATTER_RELAY_MK3 = registerBlock("antimatter_relay_mk3", 
-		new AntiMatterRelay(FabricBlockSettings.of(Material.GLASS, MapColor.BLACK).requiresTool().strength(3.5f).luminance(state -> 15), 2));
+		new AntiMatterRelay(FabricBlockSettings.copyOf(Blocks.GLASS).mapColor(MapColor.BLACK).requiresTool().strength(3.5f).luminance(state -> 15), 2));
 
 	public static final Block ALCHEMICAL_CHEST = registerBlock("alchemical_chest", 
-		new AlchemicalChest(FabricBlockSettings.of(Material.STONE, MapColor.GRAY).requiresTool().strength(3.5f)));
+		new AlchemicalChest(FabricBlockSettings.copyOf(Blocks.STONE).mapColor(MapColor.GRAY).requiresTool().strength(3.5f)));
 
 	public static final Block ENERGY_CONDENSER_MK1 = registerBlock("energy_condenser_mk1", 
-		new EnergyCondenser(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).requiresTool().strength(3.5f), 0));
+		new EnergyCondenser(FabricBlockSettings.copyOf(Blocks.STONE).mapColor(MapColor.BLACK).requiresTool().strength(3.5f), 0));
 	public static final Block ENERGY_CONDENSER_MK2 = registerBlock("energy_condenser_mk2", 
-		new EnergyCondenser(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).requiresTool().strength(3.5f), 1));
+		new EnergyCondenser(FabricBlockSettings.copyOf(Blocks.STONE).mapColor(MapColor.BLACK).requiresTool().strength(3.5f), 1));
 
 	private static Block registerBlock(String name, Block block) {
 		registerBlockItem(name, block);
@@ -65,7 +65,7 @@ public final class ModBlocks {
 	private static Item registerBlockItem(String name, Block block) {
 		Item item = Registry.register(Registries.ITEM, new Identifier(FabricatedExchange.MOD_ID, name),
 		new BlockItem(block, new FabricItemSettings()));
-		ItemGroupEvents.modifyEntriesEvent(ModItemGroups.FABRICATED_EXCHANGE).register(entries -> entries.add(item));
+		ItemGroupEvents.modifyEntriesEvent(ModItemGroups.FABRICATED_EXCHANGE_KEY).register(entries -> entries.add(item));
 		return item;
 	}
 

@@ -6,9 +6,9 @@ import com.skirlez.fabricatedexchange.FabricatedExchange;
 import com.skirlez.fabricatedexchange.emc.EmcData;
 import com.skirlez.fabricatedexchange.util.SuperNumber;
 
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
@@ -75,13 +75,13 @@ public class EnergyCollectorScreen extends HandledScreen<EnergyCollectorScreenHa
 	}
 
 	@Override
-	protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
+	protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
 		RenderSystem.setShader(GameRenderer::getPositionTexProgram);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderSystem.setShaderTexture(0, texture);
 		int x = (width - backgroundWidth) / 2;
 		int y = (height - backgroundHeight) / 2;
-		drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
+		context.drawTexture(texture, x, y, 0, 0, backgroundWidth, backgroundHeight, 256, 256);
 
 
 		int xOffset = 0; 
@@ -101,29 +101,29 @@ public class EnergyCollectorScreen extends HandledScreen<EnergyCollectorScreenHa
 		
 		final int maxfuelProgress = 24;
 		int arrowOffset = maxfuelProgress - (int)(fuelProgress * maxfuelProgress);
-		drawTexture(matrices, x + 138 + xOffset, y + 31 + arrowOffset, 176 + uOffset, 14 + arrowOffset, 12, 25); // draw arrow
+		context.drawTexture(texture, x + 138 + xOffset, y + 31 + arrowOffset, 176 + uOffset, 14 + arrowOffset, 12, 25, 256, 256); // draw arrow
 
 		int sunOffset = (int)(((float)light) / 15 * 12);
-		drawTexture(matrices, x + 126 + xOffset, y + 49 - sunOffset, 177 + uOffset, 12 - sunOffset, 12, sunOffset); // draw sun
+		context.drawTexture(texture, x + 126 + xOffset, y + 49 - sunOffset, 177 + uOffset, 12 - sunOffset, 12, sunOffset, 256, 256); // draw sun
 
-		drawTexture(matrices, x + 64 + xOffset, y + 18, 0, 166, (int)(48 * emcProgress), 10); // draw energy bar thing
+		context.drawTexture(texture, x + 64 + xOffset, y + 18, 0, 166, (int)(48 * emcProgress), 10, 256, 256); // draw energy bar thing
 	}
 
 	@Override
-	protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
+	protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
 		int xOffset = 0; 
 		if (this.level == 1)
 			xOffset = 16;
 		else if (this.level == 2)
 			xOffset = 34;
-		textRenderer.draw(matrices, NumberFormat.getIntegerInstance().format(emc), 62 + xOffset, 32, 0x404040);
+		context.drawText(textRenderer, NumberFormat.getIntegerInstance().format(emc), 62 + xOffset, 32, 0x404040, false);
 	}
 
 	@Override
-	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		renderBackground(matrices);
-		super.render(matrices, mouseX, mouseY, delta);
-		drawMouseoverTooltip(matrices, mouseX, mouseY);
+	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+		renderBackground(context);
+		super.render(context, mouseX, mouseY, delta);
+		drawMouseoverTooltip(context, mouseX, mouseY);
 	}
 
 

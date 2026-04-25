@@ -4,9 +4,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.skirlez.fabricatedexchange.FabricatedExchange;
 import com.skirlez.fabricatedexchange.emc.EmcData;
 import com.skirlez.fabricatedexchange.util.SuperNumber;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
@@ -39,7 +39,7 @@ public class EnergyCondenserScreen extends HandledScreen<EnergyCondenserScreenHa
 	}
 
 	@Override
-	protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
+	protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
 		RenderSystem.setShader(GameRenderer::getPositionTexProgram);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderSystem.setShaderTexture(0, texture);
@@ -48,7 +48,7 @@ public class EnergyCondenserScreen extends HandledScreen<EnergyCondenserScreenHa
 
 		this.playerInventoryTitleY = this.backgroundHeight - 93;
 
-		drawTexture(matrices, i, j, 0, 0, backgroundWidth, backgroundHeight);
+		context.drawTexture(texture, i, j, 0, 0, backgroundWidth, backgroundHeight, 256, 256);
 		
 		
 		ItemStack stack = handler.getTargetItemStack();
@@ -60,11 +60,11 @@ public class EnergyCondenserScreen extends HandledScreen<EnergyCondenserScreenHa
 		double percent = ((double)emc / (double)targetEmc.toDouble());
 		if (percent > 1d)
 			percent = 1d;
-		drawTexture(matrices, x + 33, y + 9, 0, backgroundHeight, (int)(102 * percent), 10);
+		context.drawTexture(texture, x + 33, y + 9, 0, backgroundHeight, (int)(102 * percent), 10, 256, 256);
 	}
 
 	@Override
-	protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
+	protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
 		ItemStack stack = handler.getTargetItemStack();
 		long targetEmc;
 		if (stack.isEmpty())
@@ -72,14 +72,14 @@ public class EnergyCondenserScreen extends HandledScreen<EnergyCondenserScreenHa
 		else
 			targetEmc = EmcData.getItemStackEmc(stack).toLong(-1);
 
-		textRenderer.draw(matrices, NumberFormat.getIntegerInstance().format(Long.min(emc, targetEmc)), 150, 10, 0x404040);
+		context.drawText(textRenderer, NumberFormat.getIntegerInstance().format(Long.min(emc, targetEmc)), 150, 10, 0x404040, false);
 	}
 
 	@Override
-	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		renderBackground(matrices);
-		super.render(matrices, mouseX, mouseY, delta);
-		drawMouseoverTooltip(matrices, mouseX, mouseY);
+	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+		renderBackground(context);
+		super.render(context, mouseX, mouseY, delta);
+		drawMouseoverTooltip(context, mouseX, mouseY);
 	}
 
 	public void update(long emc) {

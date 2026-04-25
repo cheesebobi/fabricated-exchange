@@ -171,7 +171,7 @@ public class FunctionalProjectile extends ThrownItemEntity {
 		createDeathParticles(result, getItem());
 	}
 	public void createDeathParticles(HitResult result, ItemStack stack) {
-		if (!(world instanceof ServerWorld serverWorld))
+		if (!(getWorld() instanceof ServerWorld serverWorld))
 			return;
 		Vec3d pos = result.getPos();
 		if (result instanceof BlockHitResult blockHitResult) {
@@ -179,7 +179,7 @@ public class FunctionalProjectile extends ThrownItemEntity {
 				pos = new Vec3d(pos.x, blockHitResult.getPos().offset(blockHitResult.getSide().getOpposite(), 0.5d).getY(), pos.z);
 		}
 		ParticleEffect particleEffect = new ItemStackParticleEffect(ParticleTypes.ITEM, stack);
-		Random random = world.getRandom();
+		Random random = getWorld().getRandom();
 		for (int i = 0; i < 8; i++) {
 			serverWorld.spawnParticles(particleEffect, pos.x, pos.y, pos.z, 1, 0, 0, 0, 0.2d);
 		}

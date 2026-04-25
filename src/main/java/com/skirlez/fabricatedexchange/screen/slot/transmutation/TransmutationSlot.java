@@ -52,7 +52,7 @@ public class TransmutationSlot extends Slot {
 
 		stack.setCount(amount);
 
-		if (!player.world.isClient()) {
+		if (!player.getWorld().isClient()) {
 			SuperNumber emc = EmcData.getEmc(player);
 			if (emc.compareTo(itemCost) != -1) {
 				EmcData.subtractEmc((ServerPlayerEntity)player, itemCost);
