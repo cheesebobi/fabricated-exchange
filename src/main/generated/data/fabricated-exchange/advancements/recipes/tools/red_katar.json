@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_dark_matter_sword": {
+    "has_red_matter_sword": {
       "conditions": {
         "items": [
           {
             "items": [
-              "fabricated-exchange:red_matter_sword"
+              "fabricated-exchange:red_matter"
             ]
           }
         ]
